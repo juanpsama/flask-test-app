@@ -1,0 +1,40 @@
+{%include "header.html" %}
+
+
+<!-- Main Content-->
+<div class="container px-4 px-lg-5 mt-5 pt-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- Post preview-->
+      {% for document in documents %}
+
+      <div class="post-preview">
+        <a href="{{ url_for('get_single_document', document_id=document.id) }}">
+          <h2 class="post-title">{{ document.name }}</h2>
+          <h3 class="post-subtitle">{{ document.folio }}</h3>
+        </a>
+
+        <p class="post-meta">
+          Creado por <a href="#">{{document.author.name}}</a> el {{document.creation_date}}
+        </p>
+        <a class="btn btn-danger" href="{{url_for('delete_document', document_id = document.id) }}"><strong>Eliminar</strong></a>
+        <a class="btn btn-secondary" href="{{url_for('update_document', document_id = document.id) }}"><strong>Modficar</strong></a>
+      </div>
+
+      <!-- Divider-->
+      <hr class="my-4" />
+      {% endfor %}
+      <!-- New Post -->
+      <div class="d-flex justify-content-end mb-4">
+        <a class="btn btn-primary float-right" href="{{url_for('new_document')}}">Nuevo Documento</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% include "footer.html" %}
+
+
+{% include "footer.html" %} 

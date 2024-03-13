@@ -1,0 +1,21 @@
+{%include("header.html")%}
+<ul>
+    <li>
+        {{document.name}}
+    </li>
+    <li>
+        {{document.folio}}
+    </li>
+    <li>
+        {{document.description}}
+    </li>
+    <li>
+        {{document.creation_date}}
+    </li>
+    <li>
+        {%for file in document.files%}
+        <a href="{{url_for('serve_file', file_id = file.id )}}">File</a>
+        {%endfor%}
+    </li>
+</ul>
+{%include("footer.html")%}
