@@ -24,6 +24,7 @@ class Document(db.Model):
     description = db.Column(db.Text, nullable = False)
     creation_date = db.Column(db.Date, nullable = False) 
 
+    # Property to perform logic elimination
     is_active = db.Column(db.Boolean, nullable = False, default = True)
     
     #Create Foreign Key, "users.id" the users refers to the tablename of User.

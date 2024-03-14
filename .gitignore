@@ -4,9 +4,10 @@
 /.vscode
 # exclude everything
 files/*
-
 # exception to the rule
 !files/.gitkeep 
+
+database.sql
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

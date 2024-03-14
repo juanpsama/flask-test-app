@@ -2,7 +2,7 @@
 {% from "fields.html" import render_text_field %}
 <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-      <form method="POST" class="form-horizontal" action="{{url_for('new_document')}}" enctype="multipart/form-data" role='form' novalidate>
+      <form method="POST" class="form-horizontal" action="{{action}}" enctype="multipart/form-data" role='form' novalidate>
         
             {{form.hidden_tag()}}
             {{ render_text_field(form.name) }}
