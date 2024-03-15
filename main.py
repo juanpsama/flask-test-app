@@ -18,6 +18,9 @@ app.config['UPLOADS_DEFAULT_DEST'] =  'files/'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL',"sqlite:///posts.db")
 db.init_app(app)
 
+with app.app_context():
+        db.create_all()
+
 migrate = Migrate(app, db, command='migrate')
 
 
@@ -130,6 +133,10 @@ def delete_document(document_id):
     db.session.commit()
     return redirect(url_for('get_documents'))
 
+def make_filename(file):
+    filename = f'{str(datetime.now()).replace(" ", "_").replace(":",".")}{current_user.id}{os.path.splitext(file.filename)[1]}'
+    return filename
+
 @app.route('/update-document/<int:document_id>', methods = ['POST', 'GET'])
 @login_required
 def update_document(document_id):
@@ -151,10 +158,11 @@ def update_document(document_id):
 
         files = form.file.data 
 
-        # Create filenames based of the original name and the current date
+        # Create filenames based of the original name and the current 
         file_paths = [os.path.join(
+                        app.root_path,
                         app.config['UPLOADS_DEFAULT_DEST'], 
-                        f'{str(datetime.now()).replace(" ", "_").replace(":",".")}{current_user.id}{os.path.splitext(file.filename)[1]}') 
+                        make_filename(file) ) 
                         for file in files]
         
         # Save all the files 
