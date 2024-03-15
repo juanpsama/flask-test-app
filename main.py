@@ -137,6 +137,26 @@ def make_filename(file):
     filename = f'{str(datetime.now()).replace(" ", "_").replace(":",".")}{current_user.id}{os.path.splitext(file.filename)[1]}'
     return filename
 
+def save_files(files: list, document: Document):
+    # Create filenames based of the original name and the current 
+    file_paths = [os.path.join(
+                    app.config['UPLOADS_DEFAULT_DEST'], 
+                    make_filename(file) ) 
+                    for file in files]
+    
+    # Save all the files 
+    for i in range(len(files)):
+        files[i].save(os.path.join(app.root_path, file_paths[i]))
+
+    # Store file paths in the database
+    for path in file_paths:
+        new_file = File(
+            file_url = path,
+            document = document
+        )
+        db.session.add(new_file) 
+
+
 @app.route('/update-document/<int:document_id>', methods = ['POST', 'GET'])
 @login_required
 def update_document(document_id):
@@ -157,26 +177,7 @@ def update_document(document_id):
         document_to_update.folio = form.folio.data
 
         files = form.file.data 
-
-        # Create filenames based of the original name and the current 
-        file_paths = [os.path.join(
-                        app.root_path,
-                        app.config['UPLOADS_DEFAULT_DEST'], 
-                        make_filename(file) ) 
-                        for file in files]
-        
-        # Save all the files 
-        for i in range(len(files)):
-            files[i].save(file_paths[i])
-
-        # Store file paths in the database
-        for path in file_paths:
-            new_file = File(
-                file_url = path,
-                document = document_to_update
-            )
-            db.session.add(new_file)    
-
+        save_files(files, document_to_update)
         db.session.commit()
         return redirect(url_for('get_documents'))
 
@@ -212,24 +213,7 @@ def new_document():
         )
 
         db.session.add(new_document)
-
-        # Create filenames based of the original name and the current date
-        file_paths = [os.path.join(
-                        app.config['UPLOADS_DEFAULT_DEST'], 
-                        f'{str(datetime.now()).replace(" ", "_").replace(":",".")}{current_user.id}{os.path.splitext(file.filename)[1]}') 
-                        for file in files]
-        
-        # Save all the files 
-        for i in range(len(files)):
-            files[i].save(file_paths[i])
-        # Store file paths in the database
-        for path in file_paths:
-            new_file = File(
-                file_url = path,
-                document = new_document
-            )
-            db.session.add(new_file)    
-
+        save_files(files, new_document)
         db.session.commit()
         return redirect(url_for('get_documents'))
 
@@ -239,11 +223,10 @@ def new_document():
 @login_required
 def serve_file(file_id):
     filename = db.get_or_404(File, file_id)
-    uploads = app.root_path
     # filename = db.session.execute(db.select(File).where(File.file_url == file_name)).scalars().all()
 
     # Store the files in the project directory
-    return send_from_directory(uploads, filename.file_url)
+    return send_from_directory(app.root_path, filename.file_url)
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
