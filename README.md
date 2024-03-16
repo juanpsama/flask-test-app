@@ -14,7 +14,8 @@ This document describes the steps to deploy this Flask application on Ubuntu ser
 - Create a new apache config file
 	- `sudo nano /etc/apache2/sites-available/flaskapp.conf `  
 	-  Paste the following code into the file: 
-		````<VirtualHost *:80>
+	- ```` 
+		<VirtualHost *:80>
         ServerAdmin webmaster@localhost
         DocumentRoot /var/www/flask-test-app
 
@@ -30,7 +31,7 @@ This document describes the steps to deploy this Flask application on Ubuntu ser
 
         ErrorLog /var/www/flask-test-app/logs/error.log
         CustomLog /var/www/flask-test-app/logs/access.log combined
-</VirtualHost>`
+		</VirtualHost>
 - Enable the new Apache configuration:
 	- `sudo a2ensite flaskapp` 
 - Disable default Apache home configuration:
