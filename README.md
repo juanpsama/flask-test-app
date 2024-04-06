@@ -1,5 +1,6 @@
 # Flask App Deployment on Ubuntu Server with Apache
 [![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/juanpsama/flask-test-app/blob/master/README.es.md)
+
 This document describes the steps to deploy this Flask application on Ubuntu server 22.04 LTS with Apache.
 
 ## Prerequisites
