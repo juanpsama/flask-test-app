@@ -1,0 +1,23 @@
+# Ignore the .env file containing sensitive information
+.env
+
+# Ignore the secrets directory
+secrets/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore log files
+*.log
+
+# Ignore Dockerfile and docker-compose.yml (optional, if not needed in the image)
+Dockerfile
+docker-compose.yml
+
+# Ignore other unnecessary files and directories
+.git
+.gitignore
+.vscode/
+.idea/
