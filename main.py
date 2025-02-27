@@ -188,7 +188,7 @@ def update_document(document_id):
 @login_required
 def get_documents():
     # Get all documents with is_active set on True
-    documents = db.session.execute(db.select(Document).where(Document.is_active == True)).scalars().all()
+    documents = db.session.execute(db.select(Document).where(Document.is_active)).scalars().all()
     return render_template("get_documents.html", documents=documents)
 
 @app.route('/new-document', methods = ['GET', 'POST'])
