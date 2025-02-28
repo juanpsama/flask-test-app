@@ -90,3 +90,127 @@ Open this file using nano editor:
 - [Deploying Flask Application on Ubuntu](https://tecadmin.net/deploying-flask-application-on-ubuntu-apache-wsgi/)
 - [INSTALAR MYSQL SERVER](https://www.youtube.com/watch?v=ACM8UvZqFOY)
 
+# Flask-App deployment on Docker 
+
+### Deployment using Docker
+
+This guide explains how to deploy a Flask application using Docker on an Ubuntu server.
+
+## 1. Update and Upgrade the System
+
+Before installing any packages, update the system:
+
+```sh
+sudo apt update && sudo apt upgrade -y
+```
+
+## 2. Install Required Packages
+
+Install a few prerequisite packages which let `apt` use packages over HTTPS:
+```sh
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+```
+Then add the GPG key for the official Docker repository to your system:
+```sh
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+## 3. Install Docker
+
+Install Docker:
+```sh
+sudo apt install docker-ce
+```
+
+After installation, verify Docker is running:
+
+```sh
+sudo systemctl enable --now docker
+docker --version
+```
+
+## 4. Install Docker Compose
+
+Update the package index and install the latest version of `Docker Compose`:
+
+```sh
+ sudo apt-get update
+ sudo apt-get install docker-compose-plugin
+```
+
+## 5. Clone the Repository
+
+Ensure you have SSH access configured to GitHub or your preferred source code management tool and then clone the repository:
+
+```sh
+git clone https://github.com/juanpsama/flask-test-app.git
+cd flask-test-app
+```
+
+## 6. Create Required Configuration Files
+
+### 6.1 Create the `.env` File
+
+This file will store sensitive variables for your Flask application.
+
+Create and edit the `.env` file:
+
+```sh
+touch .env
+nano .env
+```
+
+Add the following content to the `.env` file, you can see somre template for the .env file on the .env.save file on this directory:
+
+```
+FLASK_KEY=your-secret-flask-key
+DB_URL=postgresql://postgres:@db:5432/example
+```
+
+Replace `your-secret-flask-key` with a secure key and ensure the database URL matches your setup.
+
+### 6.2 Create the `secrets/password.txt` File
+
+This file will store the password for the PostgreSQL database.
+
+Create the `secrets/password.txt` file:
+
+```sh
+mkdir -p secrets
+echo "your-secure-db-password" > secrets/password.txt
+chmod 600 secrets/password.txt
+```
+
+Replace `your-secure-db-password` with a secure password.
+
+## 7. Deploy the Application
+
+Start the application using Docker Compose, this will read the docker-compose.yml on the current directory and run it:
+
+```sh
+docker-compose up -d
+```
+
+## 8. Verify Running Containers
+
+Check if the containers are running:
+
+```sh
+docker ps
+```
+
+You should see both the `app` and `db` containers running.
+
+## 9. Access the Application
+
+Once running, your Flask application should be accessible at:
+
+```
+http://<your-server-ip>:5000
+```
+
+Replace `<your-server-ip>` with your actual server IP address.
+
+---
+
+Your Flask application is now successfully deployed using Docker.
