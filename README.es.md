@@ -1,6 +1,6 @@
 # Implementación de una aplicación Flask en un servidor Ubuntu con Apache
 
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/juanpsama/flask-test-app/blob/master/README.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](/README.md)
 
 Este documento describe los pasos para implementar esta aplicación Flask en UbuntuServer 22.04 LTS con Apache.
 
